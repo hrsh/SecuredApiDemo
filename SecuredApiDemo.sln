@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductApi", "src\ProductApi\ProductApi.csproj", "{D5BB8F9C-CAFD-443A-BF91-87EB0C04B10E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductApi", "src\ProductApi\ProductApi.csproj", "{D5BB8F9C-CAFD-443A-BF91-87EB0C04B10E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityApi", "src\IdentityApi\IdentityApi.csproj", "{167722A5-15FB-4A8F-95AE-A2ED18BEB0DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityApi", "src\IdentityApi\IdentityApi.csproj", "{167722A5-15FB-4A8F-95AE-A2ED18BEB0DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{0FD4EE9B-AE63-4F12-953E-3B95D09A25DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{167722A5-15FB-4A8F-95AE-A2ED18BEB0DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{167722A5-15FB-4A8F-95AE-A2ED18BEB0DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{167722A5-15FB-4A8F-95AE-A2ED18BEB0DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD4EE9B-AE63-4F12-953E-3B95D09A25DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD4EE9B-AE63-4F12-953E-3B95D09A25DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD4EE9B-AE63-4F12-953E-3B95D09A25DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD4EE9B-AE63-4F12-953E-3B95D09A25DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
