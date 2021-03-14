@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace IdentityApi.Controllers
@@ -16,15 +13,18 @@ namespace IdentityApi.Controllers
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IJwtGenerator _jwtGenerator;
 
         public UserController(
             AppDbContext context,
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            IJwtGenerator jwtGenerator)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _jwtGenerator = jwtGenerator;
         }
 
         [HttpGet("login")]
@@ -53,15 +53,19 @@ namespace IdentityApi.Controllers
                     RoleName = r
                 });
 
-            return new ApiUser
+            var apiUser = new ApiUser
             {
                 Id = user.Id,
                 Email = user.Email,
                 Fullname = user.Fullname,
                 Phone = user.PhoneNumber,
                 Username = user.UserName,
-                Roles = userRoles
+                Roles = userRoles,
+                Token = string.Empty
             };
+            var token = _jwtGenerator.Generator(apiUser);
+            apiUser.Token = token;
+            return apiUser;
         }
     }
 }

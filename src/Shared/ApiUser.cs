@@ -15,5 +15,7 @@ namespace Shared
         public string Phone { get; set; }
 
         public List<ApiRole> Roles { get; set; }
+
+        public string Token { get; set; }
     }
 }
