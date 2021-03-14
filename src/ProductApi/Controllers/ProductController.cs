@@ -30,5 +30,14 @@ namespace ProductApi.Controllers
         [HttpGet("{id}")]
         public async Task<Product> Get(int id)
             => await _context.Products.FirstOrDefaultAsync(a => a.Id == id);
+
+        [HttpPost]
+        public async Task<IActionResult> Create(
+            [FromBody]Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

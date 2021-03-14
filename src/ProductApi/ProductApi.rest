@@ -1,0 +1,4 @@
+@url = https://localhost:6002/api/v1
+
+###
+GET {{url}}/product
