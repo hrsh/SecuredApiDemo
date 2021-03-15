@@ -28,18 +28,27 @@ namespace ProductApi
             });
 
             services.AddControllers();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt =>
-                {
-                    var key = Encoding.UTF8.GetBytes("this_is_my_$ecret_key");
-                    var securityKey = new SymmetricSecurityKey(key);
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(opt =>
+            //    {
+            //        var key = Encoding.UTF8.GetBytes("this_is_my_$ecret_key");
+            //        var securityKey = new SymmetricSecurityKey(key);
 
-                    opt.TokenValidationParameters = new TokenValidationParameters
+            //        opt.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuerSigningKey = true,
+            //            IssuerSigningKey = securityKey,
+            //            ValidateAudience = false,
+            //            ValidateIssuer = false
+            //        };
+            //    });
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:6003";
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = securityKey,
-                        ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidateAudience = false
                     };
                 });
         }
