@@ -67,5 +67,12 @@ namespace IdentityApi.Controllers
             apiUser.Token = token;
             return apiUser;
         }
+
+        [HttpGet("token")]
+        public async Task<ActionResult<string>> GetToken(string username)
+        {
+            var token = await _jwtGenerator.Generator(username);
+            return token;
+        }
     }
 }

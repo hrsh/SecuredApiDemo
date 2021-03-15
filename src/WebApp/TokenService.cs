@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebApp
@@ -15,11 +10,11 @@ namespace WebApp
         private readonly AppDbContext _context;
         private readonly HttpClient _client;
 
-        public async Task<string> GetToken()
+        public async Task<string> GetToken(string username)
         {
-            var t = await GetTokenFromDb();
+            var t = await GetTokenFromDb(username);
             if (string.IsNullOrWhiteSpace(t))
-                t = await GetTokenFromService("", "");
+                t = await GetTokenFromService(username);
             return t;
         }
 
@@ -32,40 +27,37 @@ namespace WebApp
             _client.BaseAddress = new Uri("https://localhost:6001");
         }
 
-        private async Task<string> GetTokenFromDb()
+        private async Task<string> GetTokenFromDb(string username)
         {
             var appToken = await _context
                 .Tokens
-                .FirstOrDefaultAsync(a => a.Username == "");
+                .FirstOrDefaultAsync(a => a.Username == username);
+
             if (appToken is null)
-                return string.Empty;
-            if (DateTime.Now > appToken.ExpirationDate)
                 return string.Empty;
 
             return appToken.Token;
         }
 
         private async Task<string> GetTokenFromService(
-            string email,
-            string password)
+            string username)
         {
             var t = await _client.GetStringAsync(
-                $"api/v1/user/login?email={email}&password={password}");
+                $"api/v1/user/token?username={username}");
 
-            var user = JsonConvert.DeserializeObject<ApiUser>(t);
-
-            var appToken = new AppToken
-            {
-                Email = user.Email,
-                ExpirationDate = DateTime.Now.AddMinutes(59),
-                Password = password,
-                Token = user.Token,
-                Username = user.Username
-            };
+            if (string.IsNullOrWhiteSpace(t))
+                return string.Empty;
 
             var currentAppToken = await _context
                 .Tokens
-                .FirstOrDefaultAsync(a => a.Username == user.Username);
+                .FirstOrDefaultAsync(a => a.Username == username);
+
+            var appToken = new AppToken
+            {
+                Token = t,
+                Username = username
+            };
+
             if (currentAppToken is null)
             {
                 _context.Tokens.Add(appToken);
@@ -73,14 +65,12 @@ namespace WebApp
             }
             else
             {
-                currentAppToken.Token = user.Token;
-                currentAppToken.ExpirationDate = DateTime.Now.AddMinutes(59);
-
+                currentAppToken.Token = t;
                 _context.Tokens.Update(currentAppToken);
                 await _context.SaveChangesAsync();
             }
 
-            return user.Token;
+            return t;
         }
     }
 }
