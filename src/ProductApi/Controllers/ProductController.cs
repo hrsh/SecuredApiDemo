@@ -28,7 +28,8 @@ namespace ProductApi.Controllers
             return t;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<Product> Get(int id)
             => await _context.Products.FirstOrDefaultAsync(a => a.Id == id);
