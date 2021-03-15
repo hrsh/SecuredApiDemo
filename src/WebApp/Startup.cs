@@ -24,8 +24,6 @@ namespace WebApp
             {
                 opt.UseSqlite(Configuration.GetConnectionString("app-token"));
             });
-
-            services.AddScoped<ITokenService, TokenService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

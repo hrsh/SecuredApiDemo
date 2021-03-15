@@ -12,7 +12,5 @@ namespace WebApp
         {
             base.OnModelCreating(modelBuilder);
         }
-
-        public DbSet<AppToken> Tokens { get; set; }
     }
 }
